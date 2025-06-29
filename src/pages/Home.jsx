@@ -1,36 +1,72 @@
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 export const Home = () => {
 
 
-     
 
 
-  const {store, dispatch} =useGlobalReducer()
 
-  useEffect(()=>{
-        fetch("https://playground.4geeks.com/contact/agendas/jorgeSanchez/contacts",{
-            method:"GET",
-            headers:{
-                "Content-Type":"application/json"
+    const { store, dispatch } = useGlobalReducer()
+
+    let url = "https://playground.4geeks.com/contact/agendas/jorgesSanchez/contacts"
+
+    useEffect(() => {
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
             },
-     })
-     .then((resp)=>resp.json())
-     .then(data=>{dispatch({type:"get_contact",payload:data.contacts})})
-     },[])
+        })
+            .then((contactos) => contactos.json())
+            .then(contactos => { dispatch({ type: "get_contact", payload: contactos.contacts }) })
+    }, [])
+    //delete, post
 
+    const handleDelete = async (id) => {
+        console.log(id)
+        await fetch(`${url}"/"${id}`, {
+            method: "DELETE",
+            headers: { "Content-type": "application/json" }
 
-	return (
-		<div>
-            <div>
-                {store.contacts.map((contact,index=>(
-                    <h1 key={index}>{contact.name}</h1>
-                    
-                ))
+        })
+        getUser()
 
-                )}
+    }
+
+    return (
+        <div className="card mb-3 shadow-sm">
+            <div className="row g-0 align-items-center">
+                <div className="col-md-2 text-center">
+                    <img
+                        src="https://cdn.pixabay.com/photo/2021/11/05/19/01/cappadocia-6771879_1280.jpg"
+                        className="img-fluid rounded-circle"
+                        alt=""
+                    />
+                </div>
+                <div className="col-md-8">
+                    <div className="card-body">
+
+                        {store.contacts.map((contact, index) => (
+                            <div key={index}>
+                                <h5 className="card-title" >{contact.name}</h5>
+                                <p className="card-text mb-1">{contact.phone}</p>
+                                <p className="card-text mb-1">{contact.email}</p>
+                                <p className="card-text mb-1">{contact.address}</p>
+                                <div className="position-absolute top-0 end-0 m-2">
+                                    <button className="btn btn-light btn-sm me-2">
+                                        <i className="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button className="btn btn-light btn-sm" onClick={() => handleDelete(contact.id)}>
+                                        <i className="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
-	);
+
+    );
 }; 
