@@ -3,8 +3,8 @@ import { Link,useNavigate} from 'react-router-dom';
 import { useState } from 'react';
 import useGlobalReducer from '../hooks/useGlobalReducer';
 
-export const Formulario = () => {
-  
+export const EditarContacto = ({contacto}) => {
+  const {contactName,contactPhone,contactEmail,contactAddress,contactId} = contacto
   const [ name, setName ]=useState("")
   const { store, dispatch } = useGlobalReducer()
 const [ phone, setPhone ]=useState("")
