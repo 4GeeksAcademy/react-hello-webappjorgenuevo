@@ -5,26 +5,26 @@ import useGlobalReducer from '../hooks/useGlobalReducer';
 
 export const EditarContacto = ({contacto}) => {
   const {contactName,contactPhone,contactEmail,contactAddress,contactId} = contacto
-  const [ name, setName ]=useState("")
+  const [ name, setName ]=useState(contactName)
+  const [ phone, setPhone ]=useState(contactPhone)
+  const [ email, setEmail ]=useState(contactEmail)
+  const [ address, setAddress ]=useState(contactAddress)
+  const navigate = useNavigate()
   const { store, dispatch } = useGlobalReducer()
-const [ phone, setPhone ]=useState("")
-const [ email, setEmail ]=useState("")
-const [ address, setAddress ]=useState("")
-const navigate = useNavigate()
-
+  
 const handleSubmit = async (e)=>{
   e.preventDefault()
-  const newContact = {name,phone,email,address}
-  const url ="https://playground.4geeks.com/contact/agendas/jorgesSanchez/contacts"
+  const editedContact = {name,phone,email,address}
+  const url =`https://playground.4geeks.com/contact/agendas/jorgesSanchez/contacts/${contactId}`
   const response = await fetch(url,{
-    method: "POST",
+    method: "PUT",
     headers: {"Content-Type":"application/json"
     },
-    body:JSON.stringify(newContact)
+    body:JSON.stringify(editedContact)
   })
   if(response.ok){
     const contact = await response.json()
-    dispatch({type:"add_contact",payload:contact})
+    dispatch({type:"edit_contact",payload:contact})
     navigate("/")
   }else{console.log("Error al guardar el contacto")}
 }
