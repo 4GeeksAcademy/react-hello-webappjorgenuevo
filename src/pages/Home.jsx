@@ -3,9 +3,10 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { useEffect, useState } from "react";
 import storeReducer from "../store.js";
 import { EditarContacto } from "./EditarContacto.jsx";
-
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
+
 
     const { store, dispatch } = useGlobalReducer()
 
@@ -21,7 +22,7 @@ export const Home = () => {
             .then((contactos) => contactos.json())
             .then(contactos => { dispatch({ type: "get_contact", payload: contactos.contacts }) })
     }, [])
-    //delete, post
+
 
     const handleDelete = async (id) => {
 
@@ -35,6 +36,12 @@ export const Home = () => {
 
     }
 
+    let navigate = useNavigate()
+
+    const handleEdit = (contacto) =>{
+        navigate (`/edit-contact/${contacto.id}`)
+    }
+    
     return (
         <>
 
@@ -60,7 +67,7 @@ export const Home = () => {
                                             <i className="fas fa-pencil-alt"></i>
                                         </button>
                                         <button className="btn btn-light btn-sm" onClick={() => handleDelete(contact.id)}>
-                                            <i className="fas fa-trash-alt"></i>
+                                            <i className="fas fa-trash-alt" onClick={()=>handleEdit(contact)}></i>
                                         </button>
                                     </div>
                                 </div>
