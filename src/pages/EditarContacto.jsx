@@ -1,21 +1,23 @@
 import React from 'react';
-import { Link,useNavigate} from 'react-router-dom';
+import { Link,useNavigate, useParams} from 'react-router-dom';
 import { useState } from 'react';
 import useGlobalReducer from '../hooks/useGlobalReducer';
 
-export const EditarContacto = ({contacto}) => {
-  const {contactName,contactPhone,contactEmail,contactAddress,contactId} = contacto
-  const [ name, setName ]=useState(contactName)
-  const [ phone, setPhone ]=useState(contactPhone)
-  const [ email, setEmail ]=useState(contactEmail)
-  const [ address, setAddress ]=useState(contactAddress)
-  const navigate = useNavigate()
+export const EditarContacto = () => {
   const { store, dispatch } = useGlobalReducer()
+  const {id} = useParams()
+  const contact = store.contacts.find((contact) => contact.id === parseInt(id) )
+  console.log(id,contact)
+  const [ name, setName ]=useState(contact.name)
+  const [ phone, setPhone ]=useState(contact.phone)
+  const [ email, setEmail ]=useState(contact.email)
+  const [ address, setAddress ]=useState(contact.address)
+  const navigate = useNavigate()
   
 const handleSubmit = async (e)=>{
   e.preventDefault()
   const editedContact = {name,phone,email,address}
-  const url =`https://playground.4geeks.com/contact/agendas/jorgesSanchez/contacts/${contactId}`
+  const url =`https://playground.4geeks.com/contact/agendas/jorgesSanchez/contacts/${contact.id}`
   const response = await fetch(url,{
     method: "PUT",
     headers: {"Content-Type":"application/json"

@@ -64,10 +64,10 @@ export const Home = () => {
                                     <p className="card-text mb-1">{contact.address}</p>
                                     <div className="position-absolute top-0 end-0 m-2">
                                         <button className="btn btn-light btn-sm me-2">
-                                            <i className="fas fa-pencil-alt"></i>
+                                            <i className="fas fa-pencil-alt" onClick={()=>handleEdit(contact)}></i>
                                         </button>
                                         <button className="btn btn-light btn-sm" onClick={() => handleDelete(contact.id)}>
-                                            <i className="fas fa-trash-alt" onClick={()=>handleEdit(contact)}></i>
+                                            <i className="fas fa-trash-alt" ></i>
                                         </button>
                                     </div>
                                 </div>
